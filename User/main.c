@@ -111,7 +111,7 @@ int main(void)
 					//读取数据
 			DS18B20_Start();
 			Temp = DS18B20_Get_Temp();
-			PH=Get_PH( ADC_Channel_7,10);  //PA6	
+			PH=Get_PH( ADC_Channel_7,10);  //PA7	
 			rongjieyang=DO_Read_5V(ADC_Channel_6,10);
 			}
 		
@@ -274,26 +274,41 @@ void GetData(void)
 
 void Alarm(void)
 {
-	//数据处理，判断数据是否异常，异常后执行的操作
+	// PH、烟雾、水温超出阈值时，只触发蜂鸣器和LED报警；
+	// 溶解氧低于阈值时，单独启动充氧泵。
 	if(OLED_Display==0)
 	{
-	
-		if((PH>PHH)||(mq2_val>mq2_val_H)||(Temp>Temp_H)||(rongjieyang>rongjieyangh)){buzzer_ON();baojing_Flag=1;shuibeng_ON();LED_ON();}
-	else {buzzer_OFF();baojing_Flag=0;shuibeng_OFF();LED_OFF();}
-			
-}
-else if(OLED_Display==1)
+		if((PH>PHH)||(mq2_val>mq2_val_H)||(Temp>Temp_H))
+		{
+			buzzer_ON();
+			baojing_Flag=1;
+			LED_ON();
+		}
+		else
+		{
+			buzzer_OFF();
+			baojing_Flag=0;
+			LED_OFF();
+		}
+		
+		if(rongjieyang<rongjieyangh)
+		{
+			shuibeng_ON();
+		}
+		else
+		{
+			shuibeng_OFF();
+		}
+	}
+	else if(OLED_Display==1)
 	{
-	
-if(Inter_Flag==1){
-
-shuibeng_ON();
-}
-else if(Inter_Flag==2){
-shuibeng_OFF();
-
-}
-			
-}
-	
+		if(Inter_Flag==1)
+		{
+			shuibeng_ON();
+		}
+		else if(Inter_Flag==2)
+		{
+			shuibeng_OFF();
+		}
+	}
 }
