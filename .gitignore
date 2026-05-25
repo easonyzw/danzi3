@@ -1,0 +1,35 @@
+# Keil build output
+Objects/
+Listings/
+Debug/
+Release/
+build/
+
+# Keil generated files
+*.o
+*.d
+*.dep
+*.crf
+*.axf
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+*.htm
+*.lnp
+
+# Keil user-specific files
+*.uvguix.*
+*.uvgui.*
+*.bak
+
+# IDE/cache
+.metadata/
+.settings/
+.vscode/
+*.launch
+
+# OS
+.DS_Store
+Thumbs.db
